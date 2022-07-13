@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import time
 from tqdm import tqdm
-import multiprocessing
+from concurrent.futures import ProcessPoolExecutor
 import pickle
 import os
 
@@ -17,9 +17,6 @@ if __name__ == '__main__':
     srcdir = os.getcwd()
     datadir = workdir + '/data/'
     outputdir = '/project2/lhansen/pf_ms2/'
-
-    multiprocessing.set_start_method('forkserver', force=True)
-    print("forkserver")
     seed = 77
 
     obs_series = pd.read_csv(datadir + 'data.csv', delimiter=',')
@@ -41,8 +38,9 @@ if __name__ == '__main__':
     D_0 = obs_series[:,[0]]
 
     Input_0 = [[D_0, seed+i] for i in range(N)]
-    pool = multiprocessing.Pool()
-    Output_0 = pool.map(init, tqdm(Input_0))
+    with ProcessPoolExecutor() as pool:
+        Output_0 = pool.map(init, tqdm(Input_0))
+    Output_0 = [r for r in Output_0]
     del(Input_0)
     θ_t_particle = [i[0] for i in Output_0]
     X_t_particle = [i[1] for i in Output_0]
@@ -70,8 +68,9 @@ if __name__ == '__main__':
         del(D_t_next)
         del(X_t_particle)
         del(H_t_particle)
-        pool = multiprocessing.Pool()
-        Output = pool.map(recursive, Input)
+        with ProcessPoolExecutor() as pool:
+            Output = pool.map(init, tqdm(Input))
+        Output = [r for r in Output]
         del(Input)
 
         θ_t_next_particle = [i[0] for i in Output]
