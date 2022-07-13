@@ -17,12 +17,9 @@ if __name__ == '__main__':
     srcdir = os.getcwd()
     datadir = workdir + '/data/'
     outputdir = '/project2/lhansen/pf_ms2/'
-    try:
-        multiprocessing.set_start_method('spawn', force=True)
-        print("spawned")
-    except:
-        multiprocessing.set_start_method('forkserver', force=True)
-        print("forkserver")
+
+    multiprocessing.set_start_method('forkserver', force=True)
+    print("forkserver")
     seed = 122
 
     obs_series = pd.read_csv(datadir + 'data.csv', delimiter=',')
@@ -66,7 +63,7 @@ if __name__ == '__main__':
     print(run_time)    
     
     for t in tqdm(range(T-1)):
-        
+        print(t)
         D_t_next = obs_series[:,[t+1]]
         
         Input = [[D_t_next, X_t_particle[i], H_t_particle[i], seed+t+i] for i in range(N)]
