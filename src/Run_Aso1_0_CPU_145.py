@@ -17,7 +17,12 @@ if __name__ == '__main__':
     srcdir = os.getcwd()
     datadir = workdir + '/data/'
     outputdir = '/project2/lhansen/pf_ms2/'
-
+    try:
+        multiprocessing.set_start_method('spawn', force=True)
+        print("spawned")
+    except:
+        multiprocessing.set_start_method('forkserver', force=True)
+        print("forkserver")
     seed = 145
 
     obs_series = pd.read_csv(datadir + 'data.csv', delimiter=',')
