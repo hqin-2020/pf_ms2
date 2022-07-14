@@ -7,7 +7,7 @@
 #SBATCH --partition=bigmem2
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=14
-#SBATCH --mem=500G
+#SBATCH --mem=450G
 
 module load python/anaconda-2021.05
 
