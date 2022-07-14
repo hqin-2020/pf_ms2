@@ -69,7 +69,7 @@ if __name__ == '__main__':
         del(X_t_particle)
         del(H_t_particle)
         with ProcessPoolExecutor() as pool:
-            Output = pool.map(init, tqdm(Input))
+            Output = pool.map(recursive, tqdm(Input))
         Output = [r for r in Output]
         del(Input)
 
