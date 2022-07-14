@@ -11,6 +11,6 @@
 #SBATCH --array=1-150
 #SBATCH --constraint=edr
 
-module load python/anaconda-2020.02
+module load python/anaconda-2021.05
 
 srun python3 Run_Aso1_0_CPU_$SLURM_ARRAY_TASK_ID.py  

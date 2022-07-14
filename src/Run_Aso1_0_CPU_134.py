@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import time
 from tqdm import tqdm
-from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 import pickle
 import os
 
@@ -38,9 +38,8 @@ if __name__ == '__main__':
     D_0 = obs_series[:,[0]]
 
     Input_0 = [[D_0, seed+i] for i in range(N)]
-    with ProcessPoolExecutor() as pool:
-        Output_0 = pool.map(init, tqdm(Input_0))
-    Output_0 = [r for r in Output_0]
+    pool = multiprocessing.Pool()
+    Output_0 = pool.map(init, tqdm(Input_0))
     del(Input_0)
     θ_t_particle = [i[0] for i in Output_0]
     X_t_particle = [i[1] for i in Output_0]
@@ -68,8 +67,8 @@ if __name__ == '__main__':
         del(D_t_next)
         del(X_t_particle)
         del(H_t_particle)
-        with ProcessPoolExecutor() as pool:
-            Output = pool.map(recursive, tqdm(Input))
+        pool = multiprocessing.Pool()
+        Output = pool.map(recursive, Input)
         Output = [r for r in Output]
         del(Input)
 
