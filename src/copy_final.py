@@ -10,7 +10,7 @@ N = 100_000
 T = 283
 batch_num = 150
 
-for i in tqdm(range(1,batch_num)):
+for i in tqdm(range(150,151)):
     case = 'actual data, seed = ' + str(i) + ', T = ' + str(T) + ', N = ' + str(N)
     casedir = destination_dir + case  + '/'
     try:
